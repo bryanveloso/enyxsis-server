@@ -35,18 +35,18 @@
 			{
 				case 1: // @autoloot
 					if (auto_settings & 1 << 0) {
-						set auto_settings, auto_settings^1 << 0
+						set auto_settings, auto_settings^1 << 0;
 					}
 					else {
-						set auto_settings, auto_settings|1 << 0
+						set auto_settings, auto_settings|1 << 0;
 					}
 					break;
 				case 2: // @showexp
 					if (auto_settings & 1 << 1) {
-						set auto_settings, auto_settings^1 << 1
+						set auto_settings, auto_settings^1 << 1;
 					}
 					else {
-						set auto_settings, auto_settings|1 << 1
+						set auto_settings, auto_settings|1 << 1;
 					}
 					break;
 				case 3:
