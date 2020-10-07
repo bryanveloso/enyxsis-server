@@ -1,0 +1,63 @@
+//===== rAthena Script =======================================
+//= Auto @commands
+//===== By: ==================================================
+//= Avalonstar
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project SVN 3422+
+//===== Description: =========================================
+//= Allows players to have at-commands auto-activated.
+//===== Additional Comments: =================================
+//= 1.0 First Version
+//============================================================
+
+-	script	SETTINGS	-1,{
+	OnInit:
+		bindatcmd "settings", strnpcinfo(3) + "::OnAtCommand";
+		set .gmlvl, 80;
+		end;
+
+	OnAtCommand:
+		mes "[Settings]";
+		mes "Hello " + strcharinfo(0) + ".";
+		mes "What setting would you like to change?";
+		next;
+
+		while(1) {
+			switch(
+				select(
+					"@autoloot [" + ((auto_settings & 1 << 0) ? "^00FF00ON^000000" : "^FF0000OFF^000000") + "]",
+					"@showexp [" + ((auto_settings & 1 << 1) ? "^00FF00ON^000000" : "^FF0000OFF^000000") + "]",
+					"Leave"
+				)
+			)
+			{
+				case 1: // @autoloot
+					if (auto_settings & 1 << 0) {
+						set auto_settings, auto_settings^1 << 0
+					}
+					else {
+						set auto_settings, auto_settings|1 << 0
+					}
+					break;
+				case 2: // @showexp
+					if (auto_settings & 1 << 1) {
+						set auto_settings, auto_settings^1 << 1
+					}
+					else {
+						set auto_settings, auto_settings|1 << 1
+					}
+					break;
+				case 3:
+					close;
+			}
+		}
+
+	OnPCLoginEvent:
+		if (!auto_settings) end;
+		else {
+			if (auto_settings & 1 << 0) atcommand "@autoloot";
+			if (auto_settings & 1 << 1) atcommand "@showexp";
+		}
+}
