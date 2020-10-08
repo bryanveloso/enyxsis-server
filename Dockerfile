@@ -22,7 +22,6 @@ RUN ./configure --enable-packetver=${PACKETVER} --enable-vip=yes \
   && make server \
   && groupadd -g 999 appuser \
   && useradd -r -u 999 -g appuser appuser \
-  && chmod a+x /server/wait.sh \
   && chown appuser /server
 
 USER appuser
