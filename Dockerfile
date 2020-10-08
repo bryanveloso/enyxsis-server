@@ -1,27 +1,25 @@
-FROM debian:9.4
-
-ENV DEBIAN_FRONTEND=noninteractive
-ENV PACKETVER=20200401
+FROM alpine:latest
 
 WORKDIR /server
-
-RUN apt-get update && apt-get -y install \
-  make \
-  g++ \
-  mysql-client \
-  mysql-server \
-  default-libmysqlclient-dev \
-  zlib1g-dev \
-  libpcre3-dev \
-  git
-
 COPY . .
-
-RUN ./configure --enable-packetver=${PACKETVER} --enable-vip=yes \
+RUN apk update \
+  && apk add --no-cache \
+    bind-tools \
+    g++ \
+    gcc \
+    libressl-dev \
+    libstdc++ \
+    linux-headers \
+    make \
+    mariadb-connector-c \
+    mariadb-dev \
+    mysql-client \
+    netcat-openbsd \
+    pcre \
+    pcre-dev \
+    zlib-dev \
+  && ./configure --enable-packetver=20200401 --enable-vip=yes \
   && make clean \
   && make server \
-  && groupadd -g 999 appuser \
-  && useradd -r -u 999 -g appuser appuser \
-  && chown appuser /server
-
-USER appuser
+  && chmod a+x login-server && chmod a+x char-server && chmod a+x map-server \
+  && apk del git make linux-headers gcc g++ mariadb-dev zlib-dev pcre-dev libressl-dev
